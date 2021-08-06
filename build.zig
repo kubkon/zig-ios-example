@@ -14,6 +14,13 @@ pub fn build(b: *Builder) !void {
     exe.linkLibC();
     exe.linkFramework("Foundation");
     exe.linkFramework("UIKit");
+
+    if (!std.Target.current.isDarwin()) {
+        exe.addSystemIncludeDir("/usr/include");
+        exe.addLibPath("/usr/lib");
+        exe.addFrameworkDir("/System/Library/Frameworks");
+    }
+
     exe.install();
 
     const install_path = try std.fmt.allocPrint(b.allocator, "{s}/bin/app", .{b.install_path});
