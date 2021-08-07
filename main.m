@@ -1,5 +1,7 @@
 #import <UIKit/UIKit.h>
 
+#include "zig_code.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @end
@@ -20,6 +22,8 @@
   self.window.rootViewController = viewController;
 
   [self.window makeKeyAndVisible];
+
+  zigFoo(420);
 
   return YES;
 }

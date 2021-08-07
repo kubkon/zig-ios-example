@@ -9,6 +9,7 @@ pub fn build(b: *Builder) !void {
     const exe = b.addExecutable("app", null);
     b.default_step.dependOn(&exe.step);
     exe.addCSourceFile("main.m", &[0][]const u8{});
+    exe.addPackagePath("zigCode", "zig_code.zig");
     exe.setBuildMode(mode);
     exe.setTarget(target);
     exe.linkLibC();
