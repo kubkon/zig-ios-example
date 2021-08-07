@@ -1,4 +1,7 @@
-extern fn zigFoo(bar: c_int) c_void
+export fn zigFoo(bar: c_int) void
 {
-	// something
+    _ = bar;
+    // something
 }
+
+pub extern fn main(c_int, [*c]i8) c_int; // for when zig is main

@@ -2,14 +2,19 @@ const std = @import("std");
 const Allocator = std.mem.Allocator;
 const Builder = std.build.Builder;
 
+const zigIsMain = true;
+
 pub fn build(b: *Builder) !void {
     const mode = b.standardReleaseOptions();
     const target = b.standardTargetOptions(.{});
 
-    const exe = b.addExecutable("app", null);
+    const exePath = if (zigIsMain) "zig_code.zig" else null;
+    const exe = b.addExecutable("app", exePath);
     b.default_step.dependOn(&exe.step);
     exe.addCSourceFile("main.m", &[0][]const u8{});
-    exe.addPackagePath("zigCode", "zig_code.zig");
+    if (!zigIsMain) {
+        exe.addPackagePath("zigCode", "zig_code.zig");
+    }
     exe.setBuildMode(mode);
     exe.setTarget(target);
     exe.linkLibC();
