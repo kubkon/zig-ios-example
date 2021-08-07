@@ -8,8 +8,8 @@ pub fn build(b: *Builder) !void {
     const mode = b.standardReleaseOptions();
     const target = b.standardTargetOptions(.{});
 
-    const exePath = if (zigIsMain) "zig_code.zig" else null;
-    const exe = b.addExecutable("app", exePath);
+    const rootSrcPath = if (zigIsMain) "zig_code.zig" else null;
+    const exe = b.addExecutable("app", rootSrcPath);
     b.default_step.dependOn(&exe.step);
     exe.addCSourceFile("main.m", &[0][]const u8{});
     if (!zigIsMain) {
