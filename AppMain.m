@@ -1,8 +1,8 @@
 #import "AppDelegate.h"
 #import <UIKit/UIKit.h>
 
-int appMain(int argc, char *argv[]) {
+int appMain() {
   @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    return UIApplicationMain(0, nil, nil, NSStringFromClass([AppDelegate class]));
   }
 }
