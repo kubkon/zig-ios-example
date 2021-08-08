@@ -8,7 +8,8 @@ pub fn build(b: *Builder) !void {
 
     const exe = b.addExecutable("app", null);
     b.default_step.dependOn(&exe.step);
-    exe.addCSourceFile("main.m", &[0][]const u8{});
+    exe.addIncludeDir(".");
+    exe.addCSourceFiles(&[_][]const u8{ "main.m", "AppDelegate.m" }, &[0][]const u8{});
     exe.setBuildMode(mode);
     exe.setTarget(target);
     exe.linkLibC();
