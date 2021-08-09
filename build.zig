@@ -6,9 +6,10 @@ pub fn build(b: *Builder) !void {
     const mode = b.standardReleaseOptions();
     const target = b.standardTargetOptions(.{});
 
-    const exe = b.addExecutable("app", null);
+    const exe = b.addExecutable("app", "main.zig");
     b.default_step.dependOn(&exe.step);
-    exe.addCSourceFile("main.m", &[0][]const u8{});
+    exe.addIncludeDir(".");
+    exe.addCSourceFiles(&[_][]const u8{ "AppMain.m", "AppDelegate.m" }, &[0][]const u8{});
     exe.setBuildMode(mode);
     exe.setTarget(target);
     exe.linkLibC();

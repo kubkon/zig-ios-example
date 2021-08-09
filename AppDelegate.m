@@ -1,8 +1,7 @@
+#import "AppDelegate.h"
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-@property (strong, nonatomic) UIWindow *window;
-@end
+char* dummyMsg();
 
 @implementation AppDelegate
 
@@ -13,8 +12,10 @@
   viewController.view.backgroundColor = [UIColor whiteColor];
   viewController.view.frame = mainScreenBounds;
 
+  NSString* msg = [NSString stringWithUTF8String:dummyMsg()];
+
   UILabel *label = [[UILabel alloc] initWithFrame:mainScreenBounds];
-  [label setText:@"Wow! I was built with Zig!"];
+  [label setText:msg];
   [viewController.view addSubview: label];
 
   self.window.rootViewController = viewController;
@@ -26,8 +27,3 @@
 
 @end
 
-int main(int argc, char *argv[]) {
-  @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-  }
-}
