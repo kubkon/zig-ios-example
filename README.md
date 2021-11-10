@@ -17,10 +17,16 @@ do is specify the target. For iPhoneOS that would be
 zig build -Dtarget=aarch64-ios
 ```
 
-while for the iPhoneSimulator
+while for the iPhoneSimulator on an M1 Mac
 
 ```
 zig build -Dtarget=aarch64-ios-simulator
+```
+
+and for the iPhoneSimulator on an Intel Mac
+
+```
+zig build -Dtarget=x86_64-ios-simulator
 ```
 
 ## Building on a different host such as Linux
