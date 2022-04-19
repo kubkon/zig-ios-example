@@ -53,4 +53,17 @@ You can run the app with
 ```
 xcrun simctl launch booted madewithzig
 ```
+ 
+## WIP: running on an iPhone
+
+This is more of a roadmap what I'd like the process to look like. For now, this only works for me locally as I am
+in possession of Jakub's secret sauce! However, I am working hard on making both [`zignature`](https://github.com/kubkon/zignature)
+and [`zig-deploy`](https://github.com/kubkon/zig-deploy) more complete and actually functional for others, so stay
+tuned for updates!
+
+```
+zig build --sysroot $(xcrun --sdk iphoneos --show-sdk-path) -Dtarget=aarch64-ios.15.4...15.4
+zignature -s <path-to-cert> --entitlement <path-to-entitlements.plist> zig-out/bin/MadeWithZig.app
+zig-deploy -n <name-of-your-device> zig-out/bin/MadeWithZig.app
+```
 

@@ -9,7 +9,7 @@ char* dummyMsg();
   CGRect mainScreenBounds = [[UIScreen mainScreen] bounds];
   self.window = [[UIWindow alloc] initWithFrame:mainScreenBounds];
   UIViewController *viewController = [[UIViewController alloc] init];
-  viewController.view.backgroundColor = [UIColor whiteColor];
+  viewController.view.backgroundColor = [UIColor blackColor];
   viewController.view.frame = mainScreenBounds;
 
   NSString* msg = [NSString stringWithUTF8String:dummyMsg()];

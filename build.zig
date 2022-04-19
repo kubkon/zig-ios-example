@@ -4,13 +4,7 @@ const Builder = std.build.Builder;
 
 pub fn build(b: *Builder) !void {
     const mode = b.standardReleaseOptions();
-    const target = b.standardTargetOptions(.{
-        .whitelist = &[_]std.zig.CrossTarget{
-            .{ .cpu_arch = .aarch64, .os_tag = .ios },
-            .{ .cpu_arch = .aarch64, .os_tag = .ios, .abi = .simulator },
-            .{ .cpu_arch = .x86_64, .os_tag = .ios, .abi = .simulator },
-        },
-    });
+    const target = b.standardTargetOptions(.{});
 
     if (b.sysroot == null) {
         std.log.warn("You haven't set the path to Apple SDK which may lead to build errors.", .{});
