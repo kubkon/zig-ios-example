@@ -35,5 +35,10 @@
     <string>UIInterfaceOrientationLandscapeLeft</string>
     <string>UIInterfaceOrientationLandscapeRight</string>
   </array>
+  <key>UILaunchScreen</key>
+  <dict>
+    <key>UIColorName</key>
+    <string>red</string>
+  </dict>
 </dict>
 </plist>
