@@ -33,6 +33,12 @@ pub fn build(b: *Builder) !void {
         exe.addFrameworkPath("/System/Library/Frameworks");
         exe.addSystemIncludePath("/usr/include");
         exe.addLibraryPath("/usr/lib");
+
+        if (b.sysroot == null) {
+            const targetInfo = try std.zig.system.NativeTargetInfo.detect(target);
+            const path = std.zig.system.darwin.getDarwinSDK(b.allocator, targetInfo.target);
+            b.sysroot = path.?.path;
+        }
     }
 
     const install_bin = b.addInstallArtifact(exe);
