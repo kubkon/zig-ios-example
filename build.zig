@@ -29,7 +29,7 @@ pub fn build(b: *Builder) !void {
     exe.linkFramework("Foundation");
     exe.linkFramework("UIKit");
 
-    if (!(comptime builtin.os.tag.isDarwin())) {
+    if ((comptime builtin.os.tag.isDarwin())) {
         exe.addFrameworkPath("/System/Library/Frameworks");
         exe.addSystemIncludePath("/usr/include");
         exe.addLibraryPath("/usr/lib");
