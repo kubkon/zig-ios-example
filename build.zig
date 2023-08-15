@@ -7,12 +7,7 @@ pub fn build(b: *Builder) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const has_native_sdk = if (comptime builtin.os.tag.isDarwin())
-        std.zig.system.darwin.isDarwinSDKInstalled(b.allocator)
-    else
-        false;
-
-    if (b.sysroot == null and !has_native_sdk) {
+    if (builtin.os.tag != .macos and b.sysroot == null) {
         std.log.warn("You haven't set the path to Apple SDK which may lead to build errors.", .{});
         std.log.warn("Hint: you can the path to Apple SDK with --sysroot <path> flag.", .{});
     }
@@ -23,19 +18,19 @@ pub fn build(b: *Builder) !void {
         .target = target,
         .optimize = optimize,
     });
-    exe.addIncludePath(".");
+    exe.addIncludePath(.{ .cwd_relative = "." });
     exe.addCSourceFiles(&[_][]const u8{ "AppMain.m", "AppDelegate.m" }, &[0][]const u8{});
     exe.linkLibC();
     exe.linkFramework("Foundation");
     exe.linkFramework("UIKit");
 
-    if (!(comptime builtin.os.tag.isDarwin())) {
+    if (builtin.os.tag != .macos) {
         exe.addFrameworkPath("/System/Library/Frameworks");
         exe.addSystemIncludePath("/usr/include");
         exe.addLibraryPath("/usr/lib");
     }
 
-    const install_bin = b.addInstallArtifact(exe);
+    const install_bin = b.addInstallArtifact(exe, .{});
     install_bin.step.dependOn(&exe.step);
 
     const install_path = try std.fmt.allocPrint(b.allocator, "{s}/bin/app", .{b.install_path});
