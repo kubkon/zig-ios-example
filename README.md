@@ -5,12 +5,15 @@ Minimal `build.zig` for targeting iOS with Zig toolchain.
 # Building
 
 If you are building natively on macOS and have Apple SDKs installed for Apple platforms, the path
-to the SDK will be autodetected for you.
+to the SDK will be autodetected for you as part of the build script. You can still manually set the
+path to the SDK via `--sysroot` flag.
 
 If you are cross-compiling from a different host such as Linux, or you don't have Apple SDKs installed
 on macOS, you will need to provide the appropriate Apple SDK such as `iphoneos` if targeting hardware
 devices or `iphonesimulator` if targeting the simulator. In this case, you will need to provide the path to
-the SDK explicitly using the `--sysroot` flag like so
+the SDK explicitly using the `--sysroot` flag.
+
+Setting the sysroot looks like this
 
 ```
 zig build --sysroot <path_to_sdk> -Dtarget=aarch64-ios-simulator

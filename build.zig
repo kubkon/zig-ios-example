@@ -7,10 +7,19 @@ pub fn build(b: *Builder) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    if (builtin.os.tag != .macos and b.sysroot == null) {
-        std.log.warn("You haven't set the path to Apple SDK which may lead to build errors.", .{});
-        std.log.warn("Hint: you can the path to Apple SDK with --sysroot <path> flag.", .{});
-    }
+    const sdk = if (b.sysroot) |sysroot| sysroot else switch (builtin.os.tag) {
+        .macos => blk: {
+            const target_info = std.zig.system.NativeTargetInfo.detect(target) catch
+                @panic("Couldn't detect native target info");
+            const sdk = std.zig.system.darwin.getSdk(b.allocator, target_info.target) orelse
+                @panic("Couldn't detect Apple SDK");
+            break :blk sdk.path;
+        },
+        else => {
+            @panic("Missing path to Apple SDK");
+        },
+    };
+    b.sysroot = sdk;
 
     const exe = b.addExecutable(.{
         .name = "app",
@@ -24,11 +33,9 @@ pub fn build(b: *Builder) !void {
     exe.linkFramework("Foundation");
     exe.linkFramework("UIKit");
 
-    if (builtin.os.tag != .macos) {
-        exe.addFrameworkPath("/System/Library/Frameworks");
-        exe.addSystemIncludePath("/usr/include");
-        exe.addLibraryPath("/usr/lib");
-    }
+    exe.addSystemFrameworkPath(.{ .path = b.pathJoin(&.{ b.sysroot.?, "/System/Library/Frameworks" }) });
+    exe.addSystemIncludePath(.{ .path = b.pathJoin(&.{ b.sysroot.?, "/usr/include" }) });
+    exe.addLibraryPath(.{ .path = b.pathJoin(&.{ b.sysroot.?, "/usr/lib" }) });
 
     const install_bin = b.addInstallArtifact(exe, .{});
     install_bin.step.dependOn(&exe.step);
