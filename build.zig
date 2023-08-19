@@ -33,9 +33,9 @@ pub fn build(b: *Builder) !void {
     exe.linkFramework("Foundation");
     exe.linkFramework("UIKit");
 
-    exe.addFrameworkPath(.{ .path = "/System/Library/Frameworks" });
-    exe.addSystemIncludePath(.{ .path = "/usr/include" });
-    exe.addLibraryPath(.{ .path = "/usr/lib" });
+    exe.addSystemFrameworkPath(.{ .path = b.pathJoin(&.{ b.sysroot.?, "/System/Library/Frameworks" }) });
+    exe.addSystemIncludePath(.{ .path = b.pathJoin(&.{ b.sysroot.?, "/usr/include" }) });
+    exe.addLibraryPath(.{ .path = b.pathJoin(&.{ b.sysroot.?, "/usr/lib" }) });
 
     const install_bin = b.addInstallArtifact(exe, .{});
     install_bin.step.dependOn(&exe.step);
