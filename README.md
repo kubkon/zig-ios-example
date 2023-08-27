@@ -4,6 +4,17 @@ Minimal `build.zig` for targeting iOS with Zig toolchain.
 
 # Building
 
+For iOS Simulator on Apple Silicon Mac:
+```
+zig build -Dtarget=aarch64-ios-simulator
+```
+
+For iOS Simulator on Intel Mac:
+```
+zig build -Dtarget=x86_64-ios-simulator
+````
+
+
 If you are building natively on macOS and have Apple SDKs installed for Apple platforms, the path
 to the SDK will be autodetected for you as part of the build script. You can still manually set the
 path to the SDK via `--sysroot` flag.
