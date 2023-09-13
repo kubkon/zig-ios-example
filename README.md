@@ -32,16 +32,8 @@ zig build --sysroot <path_to_sdk> -Dtarget=aarch64-ios-simulator
 
 ## Running in iPhone Simulator
 
-Fire up the simulator, and then install the app with
-
 ```
-xcrun simctl install booted zig-out/bin/MadeWithZig.app
-```
-
-You can run the app with
-
-```
-xcrun simctl launch booted madewithzig
+make
 ```
  
 ## WIP: running on an iPhone
