@@ -11,9 +11,9 @@ pub fn build(b: *Builder) !void {
         .macos => blk: {
             const target_info = std.zig.system.NativeTargetInfo.detect(target) catch
                 @panic("Couldn't detect native target info");
-            const sdk = std.zig.system.darwin.getSdk(b.allocator, target_info.target) orelse
+            const sdk_path = std.zig.system.darwin.getSdk(b.allocator, target_info.target) orelse
                 @panic("Couldn't detect Apple SDK");
-            break :blk sdk.path;
+            break :blk sdk_path;
         },
         else => {
             @panic("Missing path to Apple SDK");
@@ -28,7 +28,9 @@ pub fn build(b: *Builder) !void {
         .optimize = optimize,
     });
     exe.addIncludePath(.{ .cwd_relative = "." });
-    exe.addCSourceFiles(&[_][]const u8{ "AppMain.m", "AppDelegate.m" }, &[0][]const u8{});
+    exe.addCSourceFiles(.{
+        .files = &[_][]const u8{ "AppMain.m", "AppDelegate.m" },
+    });
     exe.linkLibC();
     exe.linkFramework("Foundation");
     exe.linkFramework("UIKit");
